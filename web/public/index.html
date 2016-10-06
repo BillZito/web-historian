@@ -2,6 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="styles.css" />
+  <script type="text/javascript" src="jquery.min.js"></script>
 </head>
 <body>
   Enter a URL here:
@@ -9,4 +10,23 @@
     <input type="input" name="url"></input>
   </form>
 </body>
+<script>
+$("form").on("submit", function(e) {
+  $.ajax({
+    url: "http://127.0.0.1:8080",
+    type: "POST",
+    data: JSON.stringify({url:$("input").val()}),
+    success: function(data) {
+      console.log(data);
+      window.location = "/" + data + ".html";
+    },
+    error: function(err) {
+      console.error(err);
+    }
+  });   
+  e.preventDefault();
+});
+
+
+</script>
 </html>

@@ -3,9 +3,12 @@
 var fs = require('fs');
 var archive = require('/Users/student/Desktop/2016-09-web-historian/helpers/archive-helpers.js');
 
-archive.readListOfUrls( (dataArr) => {
-  archive.downloadUrls(dataArr);
-});
+// archive.downloadUrls(['www.google.com', 'www.amazon.com']);
+// archive.readListOfUrls()(dataArr) => {
+//   archive.downloadUrls(dataArr);
+// });
+
+
 
 
 var basePath = '/Users/student/Desktop/2016-09-web-historian/workers/log.text';
@@ -18,4 +21,9 @@ if (!fs.existsSync(basePath)) {
   fs.appendFile(basePath, 'we ran one cron');
 }
 
-
+archive.readListOfUrlsPromise()
+  .then(function(dataArr) {
+    archive.downloadUrls(dataArr);
+  }).catch(function(err) {
+    fs.appendFile(basePath, err);
+  });
